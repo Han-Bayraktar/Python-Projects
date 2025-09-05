@@ -62,7 +62,6 @@ def plot_driver_season_progress(driver_results_df: pd.DataFrame):
         ax.axis('off')
         return fig
     df = driver_results_df.copy()
-    # ensure ordering by raceId (or round)
     if "round" in df.columns:
         df = df.sort_values("round")
         x = df["round"].astype(str)

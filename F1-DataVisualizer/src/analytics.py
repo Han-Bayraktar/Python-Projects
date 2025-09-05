@@ -55,7 +55,6 @@ def driver_race_results(enriched_results: pd.DataFrame, driver_id: int | str, ye
     df = df[df["driverId"] == driver_id]
     if year is not None:
         df = df[df["year"] == int(year)]
-    # Select useful columns if exist
     cols = [c for c in ["year", "raceId", "round", "raceName", "position", "points", "grid", "status"] if c in df.columns]
     if "raceId" not in cols:
         cols.insert(0, "raceId")
@@ -65,7 +64,7 @@ def driver_race_results(enriched_results: pd.DataFrame, driver_id: int | str, ye
 
 def sprint_results_for_driver(sprint_df: pd.DataFrame, driver_id: int | str, year: int | None = None):
     if sprint_df is None:
-        return pd.DataFrame()  # empty
+        return pd.DataFrame()
     df = sprint_df.copy()
     if year is not None and "year" in df.columns:
         df = df[df["year"] == int(year)]

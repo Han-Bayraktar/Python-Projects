@@ -14,22 +14,18 @@ def main():
 
     enriched = build_enriched_results(drivers, races, results, constructors)
 
-    # All-time driver points
     pts = driver_points(enriched)
     fig1 = plot_top_driver_points(pts, top_n=10)
     fig1.show()
 
-    # All-time constructors
     cons = constructor_points(enriched)
     fig2 = plot_constructor_points(cons, top_n=10)
     fig2.show()
 
-    # Championship counts pie
     ch = championship_counts(enriched)
     fig3 = plot_championship_pie(ch, top_n=8)
     fig3.show()
 
-    # Example: pick first driver in pts and show season progress for 2020 if available
     if not pts.empty:
         driver_id = pts.iloc[0]["driverId"]
         dr2020 = driver_race_results(enriched, driver_id, year=2020)
