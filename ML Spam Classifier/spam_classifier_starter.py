@@ -17,15 +17,11 @@ from sklearn.metrics import classification_report, accuracy_score
 def load_dataset(path: str):
     if not os.path.exists(path):
         raise FileNotFoundError(f"Dataset not found: {path}")
-    # latin-1 bir çok sms/spam datasında uyumlu
     df = pd.read_csv(path, encoding="latin-1")
-    # İlk iki kolonu kullan (label, text)
     if df.shape[1] > 2:
         df = df.iloc[:, :2]
     df.columns = ["label", "text"]
-    # Metinleri string yap
     texts = df["text"].astype(str)
-    # Label: spam -> 1, diğerleri -> 0
     labels = df["label"].map(lambda x: 1 if str(x).strip().lower() == "spam" else 0)
     return texts, labels
 
@@ -119,7 +115,7 @@ def train_and_eval(data_path: str, algo: str, model_path: str = "spam_model.jobl
     joblib.dump(pipeline, model_path)
     print(f"Model saved to {model_path}")
 
-    if save_report:  # Eğer save_report belirtilmişse dosyaya yaz
+    if save_report: 
         with open(save_report, "a", encoding="utf-8") as f:
             f.write(f"\n=== {datetime.now()} ===\n")
             f.write(f"Algorithm: {algo}\n")
@@ -145,7 +141,7 @@ def tune_hyperparams(data_path: str, algo: str, model_path: str = "spam_model_op
         estimator=pipeline,
         param_grid=params,
         cv=cv,
-        scoring=scoring,    # binary ise "f1" pozitif sınıf=1 üzerinden hesaplar
+        scoring=scoring,   
         n_jobs=n_jobs,
         verbose=verbose
     )
